@@ -31,3 +31,11 @@ class Inner_board:
     def start_inline():
         mark = InlineKeyboardMarkup(row_width=1)
         return mark.add(InlineKeyboardButton(text="help", callback_data="help"))
+
+    @staticmethod
+    def all_message_YorN():
+        mark = InlineKeyboardMarkup(row_width=2)
+        return mark.add(InlineKeyboardButton(text="Yes", callback_data="all_yes"), InlineKeyboardButton(text="No", callback_data="all_no"))
+
+
+

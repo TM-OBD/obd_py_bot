@@ -5,7 +5,7 @@ from tgbot.keyboards.all_replykeyboard import Reply_board
 
 
 async def func_help(message: Message):
-    await message.answer("Список основных комманд:\n/status\n???\n???",
+    await message.answer("Список основных комманд:\n/status\n/engine_degree\n???\n???\n???",
                          reply_markup=Reply_board(input_field_placeholder="Choose or no ", one_time_keyboard=True).replay_keyboard(
                              "Дополнительные команды"))
 
