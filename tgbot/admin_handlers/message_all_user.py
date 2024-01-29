@@ -31,7 +31,7 @@ async def func_message_all_user3(call: CallbackQuery, state: FSMContext):
         try:
             for i in range(n):
                 await call.bot.send_message(chat_id=i, text=admin_text)
-            await call.answer("Сообщения были отосланы успешно", cache_time=4)
+            await call.bot.send_message(call.from_user.id, "Сообщения были отосланы успешно")
         except Exception as e:
             await call.bot.send_message(call.from_user.id, "Что-то пошло не так, ошибка:")
             await call.bot.send_message(call.from_user.id, text=f"{e}")

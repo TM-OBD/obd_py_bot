@@ -3,6 +3,7 @@ from aiogram.types import Message
 # from aiogram.types import CallbackQuery
 # from tgbot.handlers.help import func_help
 
+from temporary import Temp_test
 from tgbot.keyboards.all_replykeyboard import Reply_board
 
 
