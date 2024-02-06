@@ -9,12 +9,14 @@ from tgbot.admin_handlers.message_all_user import register_message_all_user
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.admin_handlers.admin import register_admin
+from tgbot.handlers.all_status import register_all_status
 from tgbot.handlers.echo import register_echo
-from tgbot.handlers.engine import register_engine_degree
+from tgbot.handlers.service_sto import register_serv_cto
 from tgbot.handlers.help import register_help
 from tgbot.handlers.id import register_id
 from tgbot.handlers.start import register_user
 from tgbot.handlers.support import register_support
+#5om tgbot.handlers.test_new_inline_button import register_test_inlines
 from tgbot.middlewares.environment import EnvironmentMiddleware
 
 logger = logging.getLogger(__name__)
@@ -33,10 +35,12 @@ def register_all_handlers(dp):
     register_message_all_user(dp)
 
     register_user(dp)
+    #register_test_inlines(dp)
+    register_all_status(dp)
     register_id(dp)
     register_help(dp)
     register_support(dp)
-    register_engine_degree(dp)
+    register_serv_cto(dp)
 
     register_echo(dp)
 
