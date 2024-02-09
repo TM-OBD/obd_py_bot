@@ -1,63 +1,63 @@
 from requests import post
 
-fresh_service_key = 'mvRJlhX3GqC1PYmmAQQj'
-fresh_service_domain = 'https://isyb.freshservice.com'
+#Marco Q1BAynlmwvAIiW78nv4S
+# fresh_service_key = "5FHn7ZAr5rP91KrKg6Tu"
+# fresh_service_domain = "https://isyb.freshservice.com"
 
+url = "https://isyb.freshservice.com/api/v2/tickets"
+api_key = 'Q1BAynlmwvAIiW78nv4S'
 
-# def create_freshservice_ticket(subject, description):
-#     url = '{0}/api/v2/tickets'.format(fresh_service_domain)
-#     headers = {
-#         'Content-Type': 'application/json',
-#         'Authorization': 'Basic {}'.format(fresh_service_key)
-#     }
-#     data = {
-#         'description': description,
-#         'subject': subject,
-#         'email': 'cacanj11@gmail.com',
-#         'priority': 2
-#     }
-#     response = post(url=url, headers=headers, json=data)
-#     if response.status_code == 201:
-#         print(response)
-#         return True
-#     else:
-#         print(response)
-#         return False
-        # FINISH
+headers = {
+    'Content-Type': 'application/json'
+}
 
+data = {
+    "description": "Details about the issue...",
+    "subject": "Support",
+    "email": "cacanj11@gmail.com",
+    "status": 2,
+    "priority": 1
+}
 
-# if create_freshservice_ticket(subject='Its a test', description='something text'):
-#     print("Good")
+response = post(url, headers=headers, json=data, auth=('Q1BAynlmwvAIiW78nv4S', 'X'))
+print(response.status_code)
+print(response.text)
+# headers = {
+#     "Content-Type": "application/json",
+#
+# }
+# data = {
+#     "description": "Its a test request",
+#     "subject": "Test",
+#     "email": "cacanj11@gmail.com",
+#     "priority": 1,
+#     "status": 2
+# }
+#
+# response = post(url=url, headers=headers, json=data, auth=('api_key', 'X'))
+
+# if response.status_code == 201:
+#     print("Service request created successfully in Freshservice.")
+#     print("Service Request ID:", response.json()['service_request']['id'])
+#     print(response)
 # else:
-#     print("Not good")
+#     print("Failed to create a ticket in Freshservice. Status code:", response.status_code)
+#     print("Response content:", response.text)
+#     print(response)
+#
 
 
-# def create_freshservice_ticket(subject, description):
-#     url = '{0}/api/v2/tickets'.format(fresh_service_domain)
-#     headers = {
-#         'Content-Type': 'application/json',
-#         'Authorization': 'Basic {}'.format(fresh_service_key)
-#     }
-#     data = {
-#         'description': description,
-#         'subject': subject,
-#         'email': 'my_qmail',
-#         'priority': 2
-#     }f
-#
-#     response = post(url=url, headers=headers, json=data)
-#
-#     if response.status_code == 201:
-#         print("Ticket created successfully in Freshservice.")
-#         return response.json()
-#     elif response.status_code == 401:
-#         print("Authentication error: Check your API key.")
-#     else:
-#         print("Failed to create a ticket in Freshservice. Status code:", response.status_code)
-#         print("Response content:", response.text)
-#
-# # Пример использования функции
-# ticket_data = create_freshservice_ticket('New Ticket from Python', 'This is a test ticket from Python.')
-# if ticket_data:
-#     print("Ticket ID:", ticket_data['id'])
-#     print("Ticket URL:", ticket_data['helpdesk_ticket']['url'])
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,16 +5,18 @@ from tgbot.keyboards.all_replykeyboard import Reply_board
 
 
 async def func_help(message: Message):
-    await message.answer("Список основных комманд:\n/status\n/cto\n???\n???",
-                         reply_markup=Reply_board(input_field_placeholder="Choose or no ", one_time_keyboard=True).replay_keyboard(
-                             "Дополнительные команды"))
+    await message.answer("<b>Список основних команд:❔\n/status\n/services\n/info</b>",
+                         reply_markup=Reply_board(input_field_placeholder="Choose or no ",
+                                                  one_time_keyboard=True).replay_keyboard(
+                             "Додаткові команди"))
 
+
+# ❔
 
 async def func_support_help(message: Message):
-    await message.answer("Additional commands:\n/id\n/support\n???")
+    await message.answer("Додаткові команди:❔\n/id\n/support")
 
 
 def register_help(dp: Dispatcher):
     dp.register_message_handler(func_help, commands="help")
-    dp.register_message_handler(func_support_help, text="Дополнительные команды")
-
+    dp.register_message_handler(func_support_help, text="Додаткові команди")

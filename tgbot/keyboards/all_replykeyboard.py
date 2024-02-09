@@ -17,3 +17,10 @@ class Reply_board:
             kb.add(KeyboardButton(text=args[i], request_contact=self.request_contact,
                                   request_location=self.request_location))
         return kb
+
+    def replay_serv_city(self, *args):
+        kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=self.one_time_keyboard,
+                                 row_width=self.row_width, input_field_placeholder=self.input_field_placeholder)
+        kb.add(KeyboardButton(text=args[0]), KeyboardButton(args[1]), KeyboardButton(args[2]), KeyboardButton(args[3]))
+
+        return kb

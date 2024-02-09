@@ -13,12 +13,12 @@ from tgbot.keyboards.all_inlinekeyboard import Inner_board
 #     await message.bot.delete_message(message.chat.id, anim.message_id)
 
 async def all_status1(message: Message):
-    await message.answer("Выберете машину:", reply_markup=Inner_board.status_inlines()[0])
+    await message.answer("<code>Выберете машину:</code>", reply_markup=Inner_board.status_inlines()[0])
 
 
 async def all_status2(call: CallbackQuery):
     await call.bot.edit_message_text("<b>Текущий статус машины:</b>\n\n"
-                                     "<i>Заряд аккумулятора:</i> неизвестно\n<i>Уровень масла:</i> неизвестно\n<i>Местоположение:</i> неизвестно\n<i>Поломоки:</i> нет",
+                                     "<i>Заряд аккумулятора:</i> неизвестно❓\n<i>Уровень масла:</i> неизвестно❓\n<i>Местоположение:</i> неизвестно❓\n<i>Поломоки:</i> нет✅",
     # <a href='https://www.isyb.com.ua/'>Company</a>
                                      call.message.chat.id, call.message.message_id,
                                      reply_markup=Inner_board.status_inlines()[1])
