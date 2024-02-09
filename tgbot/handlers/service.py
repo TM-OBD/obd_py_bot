@@ -39,7 +39,7 @@ async def serv_cto4(call: CallbackQuery, state: FSMContext):
     await state.update_data(data1=call.data)
     await call.message.answer(
         text="<b>Добре, виберіть місто обслуговування або напишіть самі🗺</b>",
-        reply_markup=Reply_board(one_time_keyboard=True).replay_serv_city("Одеса", "Харків", "Київ",
+        reply_markup=Reply_board(one_time_keyboard=True).replay_serv_city("Одесса", "Харків", "Київ",
                                                                           "Івано-Франківськ"))
     await State_cto.st4.set()
 
@@ -47,7 +47,6 @@ async def serv_cto4(call: CallbackQuery, state: FSMContext):
 async def serv_cto4_5(message: Message, state: FSMContext):
     output = filter_cities_service(str(message.text))
     if not output:
-        print("No")
         await message.answer(
             'Я не зміг впізнати введене місто, спробуйте ввести ще раз або оберіть потрібне місто у кнопках')
         return
@@ -94,7 +93,8 @@ async def serv_cto8(call: CallbackQuery, state: FSMContext):
     await call.bot.edit_message_text(chat_id=call.message.chat.id,
                                      message_id=call.message.message_id,
                                      text="<b>Чудово, запит надіслано, менеджер відповість вам найближчим часом✅</b>"
-                                          "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>\n<code>Дата:</code> {data4} 📅\n<code>Час:</code> <b>{data5} 🕛</b>".format(
+                                          "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>\n<code>Дата:</code> {data4} 📅\n<code>Час:</code> <b>{data5} "
+                                          "🕛</b>".format(
                                          data1=data.get("data1"), data2=data.get("data2"), data3=data.get("data3"),
                                          data4=data.get("data4"), data5=call.data))
     await state.finish()
