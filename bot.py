@@ -9,8 +9,11 @@ from tgbot.admin_handlers.message_all_user import register_message_all_user
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.admin_handlers.admin import register_admin
+from tgbot.filters.creator import CreatorFilter
 from tgbot.handlers.all_status import register_all_status
 from tgbot.handlers.echo import register_echo
+from tgbot.handlers.info import register_info
+from tgbot.handlers.my_words import register_my_word
 from tgbot.handlers.service import register_serv_cto
 from tgbot.handlers.help import register_help
 from tgbot.handlers.id import register_id
@@ -26,11 +29,9 @@ def register_all_middlewares(dp, config):
     dp.setup_middleware(EnvironmentMiddleware(config=config))
 
 
-# про сервис
-# авторизация
-
 def register_all_filters(dp):
     dp.filters_factory.bind(AdminFilter)
+    dp.filters_factory.bind(CreatorFilter)
 
 
 def register_all_handlers(dp):
@@ -39,6 +40,8 @@ def register_all_handlers(dp):
     # register_test_command(dp)
 
     register_user(dp)
+    register_my_word(dp)
+    register_info(dp)
     register_all_status(dp)
     register_id(dp)
     register_help(dp)

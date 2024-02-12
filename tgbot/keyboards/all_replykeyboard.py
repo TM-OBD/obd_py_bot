@@ -24,3 +24,25 @@ class Reply_board:
         kb.add(KeyboardButton(text=args[0]), KeyboardButton(args[1]), KeyboardButton(args[2]), KeyboardButton(args[3]))
 
         return kb
+
+    def replay_authorization(self, *args):
+        kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=self.one_time_keyboard,
+                                 row_width=self.row_width, input_field_placeholder=self.input_field_placeholder)
+
+    def replay_start1(self, *args):
+        kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=self.one_time_keyboard,
+                                 row_width=self.row_width, input_field_placeholder=self.input_field_placeholder)
+        return kb.add(KeyboardButton(text="/info"), KeyboardButton(text="Особистий кабінет"))
+
+    def replay_start2(self):
+        kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=self.one_time_keyboard,
+                                 row_width=self.row_width, input_field_placeholder=self.input_field_placeholder)
+        return kb.add(KeyboardButton(text="Відправити контакт", request_contact=True),
+                      KeyboardButton(text="Повернутись назад"))
+
+    def replay_start3(self):
+        kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=self.one_time_keyboard,
+                                 row_width=self.row_width, input_field_placeholder=self.input_field_placeholder)
+        return kb.add(KeyboardButton(text="/help"))
+
+        # kb.add(KeyboardButton)

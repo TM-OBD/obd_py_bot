@@ -15,6 +15,7 @@ from environs import Env
 class TgBot:
     token: str
     admin_ids: list[int]
+    creator: int
     use_redis: bool
 
 
@@ -38,6 +39,7 @@ def load_config(path: str = None):
         tg_bot=TgBot(
             token=env.str("BOT_TOKEN"),
             admin_ids=list(map(int, env.list("ADMINS"))),
+            creator=env.int("CREATOR"),
             use_redis=env.bool("USE_REDIS"),
         ),
         # db=DbConfig(

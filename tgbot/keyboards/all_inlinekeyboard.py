@@ -37,8 +37,8 @@ class Inner_board:
 
     @staticmethod
     def start_inline():
-        mark = InlineKeyboardMarkup(row_width=1)
-        return mark.add(InlineKeyboardButton(text="help", callback_data="help"))
+        mark = InlineKeyboardMarkup(row_width=2)
+        return mark.add(InlineKeyboardButton(text="/info", callback_data="info"), InlineKeyboardButton(text="/authorization", callback_data="authorization"))
 
     @staticmethod
     def all_message_YorN():

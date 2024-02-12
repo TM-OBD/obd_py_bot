@@ -5,6 +5,7 @@ __pycache__/
 
 .gitignore
 temporary.py
+tgbot/handlers/my_words.py
 # Docker
 #docker-compose.yml
 #Dockerfile

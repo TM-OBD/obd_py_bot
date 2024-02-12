@@ -1,5 +1,5 @@
 def filter_cities_service(letter_town: str) -> str | None:
-    all_city = ["одеса", "харків", "київ", "івано-франківськ", "odessa", "odesa", "xarkiv", "kuiv", "ivano-frankivsk", "одесса", "харьков", "киев", "ивано-франковск"]
+    all_city = ["одесса", "харків", "київ", "івано-франківськ", "odessa", "odesa", "xarkiv", "kuiv", "ivano-frankivsk", "одесса", "харьков", "киев", "ивано-франковск"]
 
     for word in all_city:
         found = True
