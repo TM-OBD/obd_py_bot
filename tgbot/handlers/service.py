@@ -39,7 +39,7 @@ async def serv_cto3(call: CallbackQuery, state: FSMContext):
 async def serv_cto4(call: CallbackQuery, state: FSMContext):
     previous_state = (await state.get_data()).get("current_state")
     if previous_state == "serv_cto3":
-        await state.update_data(data1=call.data)
+        await state.update_data(data1=call.data, current_state="serv_cto4")
     await call.message.answer(
         text="<b>Добре, виберіть місто обслуговування або напишіть самі🗺</b>",
         reply_markup=Reply_board(one_time_keyboard=True).replay_serv_city("Одесса", "Харків", "Київ",
@@ -66,19 +66,21 @@ async def serv_cto_4_5_yes_no(call: CallbackQuery, state: FSMContext):
     else:
         # previous_state = (await state.get_data()).get("current_state")
         # if previous_state == "serv_cto4_5":
-            # data = await state.get_data()
+        # data = await state.get_data()
         await state.update_data(current_state="serv_y_n")
         await serv_cto4(call, state)
-            # await state.update_data(**data)
+        # await state.update_data(**data)
     # else:
     #     await serv_cto4(call, state)
 
 
 async def serv_cto5(message: Message, state: FSMContext):
-    text = message.text.split()[1][:-1]
-    # print(f"serv_cto 5: {text}")
-    city = filter_cities_service(str(text))
-    await state.update_data(data2=city, current_state="serv_cto5")
+    previous_state = (await state.get_data()).get("current_state")
+    if previous_state in ["serv_cto4", "serv_y_n"]:
+        text = message.text.split()[1][:-1]
+        # print(f"serv_cto 5: {text}")
+        city = filter_cities_service(str(text))
+        await state.update_data(data2=city, current_state="serv_cto5")
     await message.answer("<b>Виберете адресу шиномонтажу🗺</b>",
                          reply_markup=Inner_board.inline_for_sto("Адрес1", "Адрес2", "Повернутися до вибору міста"))
     await State_cto.st5.set()
@@ -92,61 +94,81 @@ async def serv_back_in_4(call: CallbackQuery, state: FSMContext):
         await state.update_data(**data)
 
 
-async def serv_cto6(call: CallbackQuery, state: FSMContext):
-    # print(f"serv_cto 6: {call.data}")
-    await state.update_data(data3=call.data, current_state="serv_cto6")
-    await call.bot.edit_message_text("<b>Тепер оберіть дату и час 🕛 зі списку нижче🔽</b>", chat_id=call.message.chat.id,
-                                     message_id=call.message.message_id,
-                                     reply_markup=Inner_board.inline_for_sto("08.02", "09.02", "10.2",
-                                                                             "Повернутися до вибору адреси"))
+# async def serv_cto6(call: CallbackQuery, state: FSMContext):
+#     # print(f"serv_cto 6: {call.data}")
+#     await state.update_data(data3=call.data, current_state="serv_cto6")
+#     await call.bot.edit_message_text("<b>Тепер оберіть дату и час 🕛 зі списку нижче🔽</b>", chat_id=call.message.chat.id,
+#                                      message_id=call.message.message_id,
+#                                      reply_markup=Inner_board.inline_for_sto("08.02", "09.02", "10.2",
+#                                                                              "Повернутися до вибору адреси"))
+#     await State_cto.st6.set()
+
+
+# async def serv_back_in_5(call: CallbackQuery, state: FSMContext):
+#     previous_state = (await state.get_data()).get("current_state")
+#     if previous_state == "serv_cto6":
+#         data = await state.get_data()
+#         await serv_cto5(call.message, state)
+#         await state.update_data(**data)
+
+
+# async def serv_cto7(call: CallbackQuery, state: FSMContext):
+#     await state.update_data(data4=call.data, current_state="serv_cto7")
+#     if call.data == "08.02":
+#         await call.bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+#                                                  message_id=call.message.message_id,
+#                                                  reply_markup=Inner_board.inline_for_sto("13:00", "14:00", "18:00",
+#                                                                                          "Повернутися до дат"))
+#     elif call.data == "09.02":
+#         await call.bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+#                                                  message_id=call.message.message_id,
+#                                                  reply_markup=Inner_board.inline_for_sto("9:00", "10:00", "13:00",
+#                                                                                          "Повернутися до дат"))
+#     elif call.data == "10.2":
+#         await call.bot.edit_message_reply_markup(chat_id=call.message.chat.id,
+#                                                  message_id=call.message.message_id,
+#                                                  reply_markup=Inner_board.inline_for_sto("10:00", "14:00", "15:00",
+#                                                                                          "Повернутися до дат"))
+#     await State_cto.st7.set()
+
+
+# async def serv_back_in_6(call: CallbackQuery, state: FSMContext):
+#     previous_state = (await state.get_data()).get("current_state")
+#     if previous_state == "serv_cto7":
+#         data = await state.get_data()
+#         await serv_cto6(call, state)
+#         await state.update_data(**data)
+async def last_question(call: CallbackQuery, state: FSMContext):
+    # print("last_question")
+    data = await state.get_data()
+    # await state.update_data(data3=call.data)
+    await call.bot.send_message(call.message.chat.id, "Запит буде надіслано, ви впевнені?"
+                              "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
+        data1=data.get("data1"), data2=data.get("data2"), data3=call.data),
+        reply_markup=Inner_board.inline_for_sto("Так!", "Повернутися назад"))
     await State_cto.st6.set()
 
 
-async def serv_back_in_5(call: CallbackQuery, state: FSMContext):
-    previous_state = (await state.get_data()).get("current_state")
-    if previous_state == "serv_cto6":
+async def between_two_fires(call: CallbackQuery, state: FSMContext):
+    # print("between_two_fires")
+    if call.data == "Так!":
+        await serv_cto8(call, state)
+    else:
         data = await state.get_data()
         await serv_cto5(call.message, state)
         await state.update_data(**data)
 
 
-async def serv_cto7(call: CallbackQuery, state: FSMContext):
-    await state.update_data(data4=call.data, current_state="serv_cto7")
-    if call.data == "08.02":
-        await call.bot.edit_message_reply_markup(chat_id=call.message.chat.id,
-                                                 message_id=call.message.message_id,
-                                                 reply_markup=Inner_board.inline_for_sto("13:00", "14:00", "18:00",
-                                                                                         "Повернутися до дат"))
-    elif call.data == "09.02":
-        await call.bot.edit_message_reply_markup(chat_id=call.message.chat.id,
-                                                 message_id=call.message.message_id,
-                                                 reply_markup=Inner_board.inline_for_sto("9:00", "10:00", "13:00",
-                                                                                         "Повернутися до дат"))
-    elif call.data == "10.2":
-        await call.bot.edit_message_reply_markup(chat_id=call.message.chat.id,
-                                                 message_id=call.message.message_id,
-                                                 reply_markup=Inner_board.inline_for_sto("10:00", "14:00", "15:00",
-                                                                                         "Повернутися до дат"))
-    await State_cto.st7.set()
-
-
-async def serv_back_in_6(call: CallbackQuery, state: FSMContext):
-    previous_state = (await state.get_data()).get("current_state")
-    if previous_state == "serv_cto7":
-        data = await state.get_data()
-        await serv_cto6(call, state)
-        await state.update_data(**data)
-
-
 async def serv_cto8(call: CallbackQuery, state: FSMContext):
+    # print("serv_cto8")
+    # print(call.message.text)
+    # print(call)
     data = await state.get_data()
     await call.bot.edit_message_text(chat_id=call.message.chat.id,
                                      message_id=call.message.message_id,
                                      text="<b>Чудово, запит надіслано, менеджер відповість вам найближчим часом✅</b>"
-                                          "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>\n<code>Дата:</code> {data4} 📅\n<code>Час:</code> <b>{data5} "
-                                          "🕛</b>".format(
-                                         data1=data.get("data1"), data2=data.get("data2"), data3=data.get("data3"),
-                                         data4=data.get("data4"), data5=call.data))
+                                          "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
+                                         data1=data.get("data1"), data2=data.get("data2"), data3=call.message.text.split()[-2]))
     await state.finish()
 
 
@@ -159,8 +181,10 @@ def register_serv_cto(dp: Dispatcher):
     dp.register_callback_query_handler(serv_cto_4_5_yes_no, state=State_cto, text=["Так", "Ні"])
     dp.register_message_handler(serv_cto5, state=State_cto.st4)
     dp.register_callback_query_handler(serv_back_in_4, state=State_cto, text="Повернутися до вибору міста")
-    dp.register_callback_query_handler(serv_cto6, state=State_cto.st5)
-    dp.register_callback_query_handler(serv_back_in_5, state=State_cto, text="Повернутися до вибору адреси")
-    dp.register_callback_query_handler(serv_cto7, state=State_cto.st6, text=["08.02", "09.02", "10.2"])
-    dp.register_callback_query_handler(serv_back_in_6, state=State_cto, text="Повернутися до дат")
-    dp.register_callback_query_handler(serv_cto8, state=State_cto.st7)
+    # dp.register_callback_query_handler(serv_cto6, state=State_cto.st5)
+    # dp.register_callback_query_handler(serv_back_in_5, state=State_cto, text="Повернутися до вибору адреси")
+    # dp.register_callback_query_handler(serv_cto7, state=State_cto.st6, text=["08.02", "09.02", "10.2"])
+    # dp.register_callback_query_handler(serv_back_in_6, state=State_cto, text="Повернутися до дат")
+    dp.register_callback_query_handler(last_question, state=State_cto.st5)
+    dp.register_callback_query_handler(between_two_fires, state=State_cto, text=["Так", "Повернутися назад"])
+    dp.register_callback_query_handler(serv_cto8, state=State_cto.st6)

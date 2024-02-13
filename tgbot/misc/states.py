@@ -17,7 +17,7 @@ class State_cto(StatesGroup):
     st4 = State()
     st5 = State()
     st6 = State()
-    st7 = State()
+    # st7 = State()
 
 
 class End_state(StatesGroup):

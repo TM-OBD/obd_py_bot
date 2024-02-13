@@ -13,7 +13,7 @@ from tgbot.filters.creator import CreatorFilter
 from tgbot.handlers.all_status import register_all_status
 from tgbot.handlers.echo import register_echo
 from tgbot.handlers.info import register_info
-from tgbot.handlers.my_words import register_my_word
+# from tgbot.handlers.my_words import register_my_word
 from tgbot.handlers.service import register_serv_cto
 from tgbot.handlers.help import register_help
 from tgbot.handlers.id import register_id
@@ -40,7 +40,7 @@ def register_all_handlers(dp):
     # register_test_command(dp)
 
     register_user(dp)
-    register_my_word(dp)
+    # register_my_word(dp)
     register_info(dp)
     register_all_status(dp)
     register_id(dp)
