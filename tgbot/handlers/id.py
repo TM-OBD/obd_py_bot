@@ -7,4 +7,4 @@ async def func_id(message: Message):
 
 
 def register_id(dp: Dispatcher):
-    dp.register_message_handler(func_id, commands="id")
+    dp.register_message_handler(func_id, commands="id", state="*")

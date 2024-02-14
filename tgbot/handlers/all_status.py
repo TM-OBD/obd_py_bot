@@ -29,6 +29,6 @@ async def all_status3(call: CallbackQuery):
 
 
 def register_all_status(dp: Dispatcher):
-    dp.register_message_handler(all_status1, commands="status")
+    dp.register_message_handler(all_status1, commands="status", state="*")
     dp.register_callback_query_handler(all_status2, text=["car1", "car2"])
     dp.register_callback_query_handler(all_status3, text="back")

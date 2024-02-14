@@ -10,4 +10,4 @@ async def func_support(message: Message):
 
 
 def register_support(dp: Dispatcher):
-    dp.register_message_handler(func_support, commands="support")
+    dp.register_message_handler(func_support, commands="support", state="*")

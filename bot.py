@@ -12,6 +12,7 @@ from tgbot.admin_handlers.admin import register_admin
 from tgbot.filters.creator import CreatorFilter
 from tgbot.handlers.all_status import register_all_status
 from tgbot.handlers.echo import register_echo
+# from tgbot.handlers.exit_state import register_exit_state
 from tgbot.handlers.info import register_info
 # from tgbot.handlers.my_words import register_my_word
 from tgbot.handlers.service import register_serv_cto
@@ -19,11 +20,13 @@ from tgbot.handlers.help import register_help
 from tgbot.handlers.id import register_id
 from tgbot.handlers.start import register_user
 from tgbot.handlers.support import register_support
-# from tgbot.handlers.test_for_creator import register_test_command
+from tgbot.handlers.test_for_creator import register_test_command
 from tgbot.middlewares.environment import EnvironmentMiddleware
 
 logger = logging.getLogger(__name__)
 
+
+# pyowm
 
 def register_all_middlewares(dp, config):
     dp.setup_middleware(EnvironmentMiddleware(config=config))
@@ -47,6 +50,7 @@ def register_all_handlers(dp):
     register_help(dp)
     register_support(dp)
     register_serv_cto(dp)
+    # register_exit_state(dp)
 
     register_echo(dp)
 

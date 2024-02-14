@@ -7,7 +7,7 @@ from tgbot.models.Main_requests_to_server import MainRequests
 
 async def user_start1(message: Message):
     await message.answer("Привіт, я бот для користувачів OBD. Якщо хочеш дізнатися детальніше, натисни кнопку /info,"
-                         " але якщо хочеш зареєструватися, натискай відповідну кнопку нижче.🔽",
+                         " але якщо хочеш зареєструватися, натискай на Особистий кабінет🔽",
                          reply_markup=Reply_board().replay_start1())
 
 
@@ -43,7 +43,7 @@ async def user_back(message: Message):
 
 
 def register_user(dp: Dispatcher):
-    dp.register_message_handler(user_start1, commands="start")
+    dp.register_message_handler(user_start1, commands="start", state="*")
     dp.register_message_handler(user_start2, text="Особистий кабінет")
     dp.register_message_handler(user_start3, content_types=ContentType.CONTACT)
     dp.register_message_handler(user_back, text="Повернутись назад")

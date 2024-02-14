@@ -18,5 +18,5 @@ async def func_support_help(message: Message):
 
 
 def register_help(dp: Dispatcher):
-    dp.register_message_handler(func_help, commands="help")
+    dp.register_message_handler(func_help, commands="help", state="*")
     dp.register_message_handler(func_support_help, text="Додаткові команди")

@@ -1,5 +1,5 @@
 from aiogram import Dispatcher
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.dispatcher import FSMContext
 
 from tgbot.filters.filter_сities import filter_cities_service
@@ -8,7 +8,7 @@ from tgbot.keyboards.all_inlinekeyboard import Inner_board
 from tgbot.misc.states import State_cto
 
 
-async def serv_cto1(message: Message, state: FSMContext):
+async def serv_cto1(message: Message):
     await message.answer("<code>Список ваших машин</code>",
                          reply_markup=Inner_board.inline_for_sto("Авто 1", "Авто 2"))
     await State_cto.st1.set()
@@ -48,10 +48,11 @@ async def serv_cto4(call: CallbackQuery, state: FSMContext):
 
 
 async def serv_cto4_5(message: Message, state: FSMContext):
-    # print(f"serv_cto 4_5: {message.text}")
+    # print(f"serv_cto 4_5: {message}")
     # await state.update_data(current_state="serv_cto4_5")
     output = filter_cities_service(str(message.text))
     if not output:
+        print(message)
         await message.answer(
             'Я не зміг впізнати введене місто, спробуйте ввести ще раз або оберіть потрібне місто у кнопках')
         return
@@ -75,12 +76,14 @@ async def serv_cto_4_5_yes_no(call: CallbackQuery, state: FSMContext):
 
 
 async def serv_cto5(message: Message, state: FSMContext):
+    await message.delete()
     previous_state = (await state.get_data()).get("current_state")
     if previous_state in ["serv_cto4", "serv_y_n"]:
         text = message.text.split()[1][:-1]
         # print(f"serv_cto 5: {text}")
         city = filter_cities_service(str(text))
         await state.update_data(data2=city, current_state="serv_cto5")
+
     await message.answer("<b>Виберете адресу шиномонтажу🗺</b>",
                          reply_markup=Inner_board.inline_for_sto("Адрес1", "Адрес2", "Повернутися до вибору міста"))
     await State_cto.st5.set()
@@ -140,6 +143,7 @@ async def serv_back_in_4(call: CallbackQuery, state: FSMContext):
 #         await state.update_data(**data)
 async def last_question(call: CallbackQuery, state: FSMContext):
     # print("last_question")
+    await call.message.delete()
     data = await state.get_data()
     # await state.update_data(data3=call.data)
     await call.bot.send_message(call.message.chat.id, "Запит буде надіслано, ви впевнені?"
@@ -160,24 +164,25 @@ async def between_two_fires(call: CallbackQuery, state: FSMContext):
 
 
 async def serv_cto8(call: CallbackQuery, state: FSMContext):
-    # print("serv_cto8")
-    # print(call.message.text)
-    # print(call)
+    await call.message.delete()
     data = await state.get_data()
-    await call.bot.edit_message_text(chat_id=call.message.chat.id,
-                                     message_id=call.message.message_id,
-                                     text="<b>Чудово, запит надіслано, менеджер відповість вам найближчим часом✅</b>"
+    # await call.bot.edit_message_text(chat_id=call.message.chat.id,
+    #                                  message_id=call.message.message_id,
+    #                                  text="<b>Чудово, запит надіслано, менеджер відповість вам найближчим часом✅</b>"
+    #                                       "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
+    #                                      data1=data.get("data1"), data2=data.get("data2"), data3=call.message.text.split()[-2]))
+    await call.message.answer(text="<b>Чудово, запит надіслано, менеджер відповість вам найближчим часом✅</b>"
                                           "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
-                                         data1=data.get("data1"), data2=data.get("data2"), data3=call.message.text.split()[-2]))
+                                         data1=data.get("data1"), data2=data.get("data2"), data3=call.message.text.split()[-2]), reply_markup=ReplyKeyboardRemove())
     await state.finish()
 
 
 def register_serv_cto(dp: Dispatcher):
-    dp.register_message_handler(serv_cto1, commands="services")
+    dp.register_message_handler(serv_cto1, commands="services", state="*")
     dp.register_callback_query_handler(serv_cto2, state=State_cto.st1)
     dp.register_callback_query_handler(serv_cto3, state=State_cto.st2)
     dp.register_callback_query_handler(serv_cto4, state=State_cto.st3)
-    dp.register_message_handler(serv_cto4_5, state=State_cto)
+    dp.register_message_handler(serv_cto4_5, state=State_cto.st4)
     dp.register_callback_query_handler(serv_cto_4_5_yes_no, state=State_cto, text=["Так", "Ні"])
     dp.register_message_handler(serv_cto5, state=State_cto.st4)
     dp.register_callback_query_handler(serv_back_in_4, state=State_cto, text="Повернутися до вибору міста")

@@ -20,4 +20,4 @@ async def info(message: Message):
 
 
 def register_info(dp: Dispatcher):
-    dp.register_message_handler(info, commands=["info", "Info"])
+    dp.register_message_handler(info, commands=["info", "Info"], state="*")

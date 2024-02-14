@@ -1,12 +1,9 @@
 
-# class Temp_test:
-#     def __init__(self):
-#         pass
-#
-#     @staticmethod
-#     def data_message(message):
-#         print('Message:\n{0}'.format(message))
+class Temp_test:
+    def __init__(self):
+        pass
 
-text = "Запит буде надіслано, ви впевнені?\nВведені дані:\n\nПослуга: Сезонна заміна\nМісто: одесса 🗺\nАдрес: Адрес1 🗺"
+    @staticmethod
+    def data_message(message):
+        print('Message:\n{0}'.format(message))
 
-print(text.split()[-2])
