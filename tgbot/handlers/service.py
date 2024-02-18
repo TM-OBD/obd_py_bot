@@ -9,7 +9,7 @@ from tgbot.misc.states import State_cto
 
 
 async def serv_cto1(message: Message):
-    await message.answer("<code>Список ваших машин</code>",
+    await message.answer("<code>Оберіть авто для обслуговування</code>",
                          reply_markup=Inner_board.inline_for_sto("Авто 1", "Авто 2"))
     await State_cto.st1.set()
 

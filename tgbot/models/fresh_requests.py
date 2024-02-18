@@ -19,7 +19,7 @@ data = {
     "priority": 1
 }
 
-response = post(url, headers=headers, json=data, auth=('Q1BAynlmwvAIiW78nv4S', 'X'))
+response = post(url, headers=headers, json=data, auth=(api_key, 'X'))
 print(response.status_code)
 print(response.text)
 # headers = {

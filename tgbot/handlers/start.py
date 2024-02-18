@@ -29,13 +29,13 @@ async def user_start3(message: Message):
     if user_id == contact_id:
         if not MainRequests.is_authorized():
             MainRequests.authorization()
-            if MainRequests.is_client():
-                await message.answer("Ви успішно зареєстровані!",
-                                     reply_markup=Reply_board(one_time_keyboard=True).replay_start3())
-            else:
-                await message.answer("Нажаль, ви не є нашим клієнтом.",
-                                     reply_markup=Reply_board(one_time_keyboard=True).replay_keyboard(
-                                         "Повернутись назад"))
+            # if MainRequests.is_client():
+            await message.answer("Ви успішно зареєстровані!",
+                                 reply_markup=Reply_board(one_time_keyboard=True).replay_start3())
+            # else:
+            #     await message.answer("Нажаль, ви не є нашим клієнтом.",
+            #                          reply_markup=Reply_board(one_time_keyboard=True).replay_keyboard(
+            #                              "Повернутись назад"))
 
 
 async def user_back(message: Message):

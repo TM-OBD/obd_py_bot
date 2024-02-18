@@ -1,5 +1,5 @@
 from aiogram import Dispatcher
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 
 
 async def info(message: Message):
@@ -16,7 +16,7 @@ async def info(message: Message):
 4️⃣ Дополнительные функции: Система OBD-II позволяет использовать различные дополнительные функции, такие как отслеживание положения автомобиля, запись и анализ данных о поездках, а также подключение дополнительных устройств и аксессуаров для автомобиля.
 
 Использование OBD-II становится все более распространенным среди автолюбителей и профессиональных автомехаников, благодаря своей эффективности, удобству и многофункциональности.
-""")
+""", reply_markup=ReplyKeyboardRemove())
 
 
 def register_info(dp: Dispatcher):

@@ -43,7 +43,7 @@ pip-delete-this-directory.txt
 *.mo
 *.pot
 
-#some files or dir
+# some files or dir
 ./tgbot/models
 
 # pyenv
