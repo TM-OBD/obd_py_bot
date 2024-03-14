@@ -5,14 +5,15 @@ from aiogram import Bot, Dispatcher
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
+from tgbot.admin_handlers.admin_commands import register_admin_com
 from tgbot.admin_handlers.message_all_user import register_message_all_user
 from tgbot.config import load_config
 from tgbot.filters.admin import AdminFilter
 from tgbot.admin_handlers.admin import register_admin
 from tgbot.filters.creator import CreatorFilter
 from tgbot.handlers.all_status import register_all_status
+from tgbot.handlers.chat_with_manager import register_chat_with_manager
 from tgbot.handlers.echo import register_echo
-# from tgbot.handlers.exit_state import register_exit_state
 from tgbot.handlers.info import register_info
 # from tgbot.handlers.my_words import register_my_word
 from tgbot.handlers.service import register_serv_cto
@@ -20,13 +21,13 @@ from tgbot.handlers.help import register_help
 from tgbot.handlers.id import register_id
 from tgbot.handlers.start import register_user
 from tgbot.handlers.support import register_support
-from tgbot.handlers.test_for_creator import register_test_command
+# from tgbot.handlers.test_for_creator import register_test_command
 from tgbot.middlewares.environment import EnvironmentMiddleware
 
 logger = logging.getLogger(__name__)
 
 
-# pyowm
+# pyowm 
 
 def register_all_middlewares(dp, config):
     dp.setup_middleware(EnvironmentMiddleware(config=config))
@@ -39,10 +40,12 @@ def register_all_filters(dp):
 
 def register_all_handlers(dp):
     register_admin(dp)
+    register_admin_com(dp)
     register_message_all_user(dp)
     # register_test_command(dp)
 
     register_user(dp)
+    register_chat_with_manager(dp)
     # register_my_word(dp)
     register_info(dp)
     register_all_status(dp)
@@ -50,7 +53,6 @@ def register_all_handlers(dp):
     register_help(dp)
     register_support(dp)
     register_serv_cto(dp)
-    # register_exit_state(dp)
 
     register_echo(dp)
 

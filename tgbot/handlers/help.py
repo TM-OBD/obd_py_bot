@@ -6,7 +6,7 @@ from tgbot.keyboards.all_replykeyboard import Reply_board
 
 async def func_help(message: Message):
     text = ("<b>Ви можете керувати мною, надіславши ці команди:</b>\n<b>Список основних команд:</b>❔\n\n"
-            "/status - <b>Показує інформації про ваші машини від obd</b>\n/services - <b>Надіслати запит на сервіс</b>\n/info - <b>Інформація про продукт</b>")
+            "/status - <b>Показує інформації про ваші машини від obd</b>\n/services - <b>Надіслати запит на сервіс</b>\n/info - <b>Інформація про продукт</b>\n\n/chat_with_manager")
 
     await message.answer(text, reply_markup=Reply_board(input_field_placeholder="Choose or no ",
                                                         one_time_keyboard=True).replay_keyboard(

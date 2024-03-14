@@ -26,34 +26,6 @@
 
 
 
-#
-
-
-import requests
-from pprint import pprint
-
-
-def req():
-    params = {'q': 'python'}
-    response = requests.get("https://api.github.com/search/repositories", params=params)
-    return response
-
-response = req()
-
-if response.status_code == 200 or 201:
-    pprint(response.text)
-    # pprint(response.json()["items"][0]["description"])
-else:
-    pprint(response.status_code)
-    pprint(response.text)
-
-
-
-
-
-
-
-
 
 
 

@@ -1,4 +1,4 @@
-import requests
+from requests import post
 from dataclasses import dataclass
 
 
@@ -8,7 +8,7 @@ class Request:
     data: any
 
     def req_post(self) -> None:
-        response = requests.post(url=self.url, json=self.data)
+        response = post(url=self.url, json=self.data)
 
         print("Status code: {}".format(response.status_code))
         print("Response: {}".format(response.text))

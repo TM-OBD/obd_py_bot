@@ -4,7 +4,7 @@ from dataclasses import dataclass
 
 @dataclass
 class Inner_board:
-    """creates inline button"""
+    """creates inline buttons"""
     row_width: int = 2
     link: str = None
 
@@ -38,7 +38,8 @@ class Inner_board:
     @staticmethod
     def start_inline():
         mark = InlineKeyboardMarkup(row_width=2)
-        return mark.add(InlineKeyboardButton(text="/info", callback_data="info"), InlineKeyboardButton(text="/authorization", callback_data="authorization"))
+        return mark.add(InlineKeyboardButton(text="/info", callback_data="info"),
+                        InlineKeyboardButton(text="/authorization", callback_data="authorization"))
 
     @staticmethod
     def all_message_YorN():
@@ -54,3 +55,15 @@ class Inner_board:
                   InlineKeyboardButton(text="Bugatti Chiron Super Sport", callback_data="car2"))
         mark2.add(InlineKeyboardButton(text="back", callback_data="back"))
         return mark1, mark2
+
+    @staticmethod
+    def chat_with_manager1():
+        mark = InlineKeyboardMarkup(row_width=2)
+        mark.add(InlineKeyboardButton(text="Да", callback_data="chat_yes"),
+                 InlineKeyboardButton(text="Нет", callback_data="chat_no"))
+        return mark
+
+    @staticmethod
+    def chat_with_manager_exit():
+        mark = InlineKeyboardMarkup()
+        mark.add(InlineKeyboardButton(text="Выйти из чата", callback_data="exit_chat"))

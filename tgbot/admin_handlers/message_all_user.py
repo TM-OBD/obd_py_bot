@@ -40,6 +40,6 @@ async def func_message_all_user3(call: CallbackQuery, state: FSMContext):
 
 
 def register_message_all_user(dp: Dispatcher):
-    dp.register_message_handler(func_message_all_user, commands="all_users_message", state=None, is_admin=True)
+    dp.register_message_handler(func_message_all_user, commands="all_users_message", state="*", is_admin=True)
     dp.register_message_handler(func_message_all_user2, state=Admin_all_message_state.s1)
     dp.register_callback_query_handler(func_message_all_user3, text=["all_yes", "all_no"], state=Admin_all_message_state.s2)
