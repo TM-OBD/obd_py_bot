@@ -4,9 +4,7 @@ from aiogram.dispatcher import FSMContext
 
 from tgbot.keyboards.all_inlinekeyboard import Inner_board
 from tgbot.keyboards.all_replykeyboard import Reply_board
-from tgbot.misc.states import Admin_all_message
-from tgbot.misc.states import Admin_add_st
-from tgbot.misc.states import Admin_send_message_st
+from tgbot.misc.states import Admin_all_message, Admin_add_st, Admin_send_message_st, Admin_del_st
 
 
 async def admin_com1(message: Message):
@@ -25,12 +23,6 @@ async def add_admin2(message: Message, state: FSMContext):
     await state.finish()
 
 
-async def admin_send_all1(message: Message):
-    print("admin_send1")
-    await message.answer("Оберіть", reply_markup=Inner_board.inline_for_sto("Для всіх", "Для клієнтів"))
-    await Admin_all_message.st1.set()
-
-
 async def admin_notice1(message: Message):
     await message.answer("Напишите id пользователя")
     await Admin_send_message_st.st1.set()
@@ -43,8 +35,25 @@ async def admin_notice2(message: Message, state: FSMContext):
 
 
 async def admin_notice3(message: Message, state: FSMContext):
-    await message.answer("Сообщение отправлено")
+    await state.update_data(text=message.text)
+    await message.answer("Будет отправлено сообщение выше, вы уверены?",
+                         reply_markup=Inner_board.inline_for_sto("Да,отправить", "Нет,закончить"))
+    await Admin_send_message_st.st3.set()
+
+
+async def admin_notice4(call: CallbackQuery, state: FSMContext):
+    if call.data == "Да,отправить":
+        data = await state.get_data()
+        await call.bot.send_message(data.get("id"), f"Вам було надіслано особисте повідомлення від менеджера:\n\n{data.get('text')}")
+    else:
+        await call.message.answer("Вы вышли из состаяния")
     await state.finish()
+
+
+async def admin_send_all1(message: Message):
+    print("admin_send1")
+    await message.answer("Оберіть", reply_markup=Inner_board.inline_for_sto("Для всіх", "Для клієнтів"))
+    await Admin_all_message.st1.set()
 
 
 async def admin_send_all2(call: CallbackQuery, state: FSMContext):
@@ -89,11 +98,23 @@ async def admin_send_all6(call: CallbackQuery, state: FSMContext):
     await state.finish()
 
 
+async def delete_admin1(message: Message):
+    await message.answer("Enter user id")
+    await Admin_del_st.st1.set()
+
+
+async def delete_admin2(message: Message, state: FSMContext):
+    user_id = message.text
+    await message.answer("Admin was deleted")
+    await state.finish()
+
+
 def register_admin_com(dp: Dispatcher):
     dp.register_message_handler(admin_com1, commands="admins_help", state="*", is_admin=True)
     dp.register_message_handler(admin_notice1, text="Повідомлення клієнту", state="*", is_admin=True)
     dp.register_message_handler(admin_notice2, state=Admin_send_message_st.st1)
     dp.register_message_handler(admin_notice3, state=Admin_send_message_st.st2)
+    dp.register_callback_query_handler(admin_notice4, state=Admin_send_message_st.st3, text=["Да,отправить", "Нет,закончить"])
     dp.register_message_handler(add_admin1, text="Додати адміністратора", state="*", is_admin=True)
     dp.register_message_handler(add_admin2, state=Admin_add_st.st1)
     dp.register_message_handler(admin_send_all1, text="Створити оголошення усім", state="*", is_admin=True)
@@ -104,4 +125,5 @@ def register_admin_com(dp: Dispatcher):
     dp.register_message_handler(admin_send_all5, state=Admin_all_message.st4, content_types=ContentTypes.ANY)
     dp.register_callback_query_handler(admin_send_all6, text=["Да, отправить", "Нет, отменить"],
                                        state=Admin_all_message.st5)
-
+    dp.register_message_handler(delete_admin1, text="Убрати адміністратора", state="*", is_admin=True)
+    dp.register_message_handler(delete_admin2, state=Admin_del_st.st1)

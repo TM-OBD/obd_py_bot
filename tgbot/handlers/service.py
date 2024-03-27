@@ -6,6 +6,7 @@ from tgbot.filters.filter_сities import filter_cities_service
 from tgbot.keyboards.all_replykeyboard import Reply_board
 from tgbot.keyboards.all_inlinekeyboard import Inner_board
 from tgbot.misc.states import State_cto
+from tgbot.services.fresh_requests import FreshServiceRequests
 
 
 async def serv_cto1(message: Message):
@@ -147,9 +148,9 @@ async def last_question(call: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     # await state.update_data(data3=call.data)
     await call.bot.send_message(call.message.chat.id, "Запит буде надіслано, ви впевнені?"
-                              "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
+                                                      "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
         data1=data.get("data1"), data2=data.get("data2"), data3=call.data),
-        reply_markup=Inner_board.inline_for_sto("Так!", "Повернутися назад"))
+                                reply_markup=Inner_board.inline_for_sto("Так!", "Повернутися назад"))
     await State_cto.st6.set()
 
 
@@ -166,14 +167,15 @@ async def between_two_fires(call: CallbackQuery, state: FSMContext):
 async def serv_cto8(call: CallbackQuery, state: FSMContext):
     await call.message.delete()
     data = await state.get_data()
-    # await call.bot.edit_message_text(chat_id=call.message.chat.id,
-    #                                  message_id=call.message.message_id,
-    #                                  text="<b>Чудово, запит надіслано, менеджер відповість вам найближчим часом✅</b>"
-    #                                       "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
-    #                                      data1=data.get("data1"), data2=data.get("data2"), data3=call.message.text.split()[-2]))
+
     await call.message.answer(text="<b>Чудово, запит надіслано, менеджер відповість вам найближчим часом✅</b>"
-                                          "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
-                                         data1=data.get("data1"), data2=data.get("data2"), data3=call.message.text.split()[-2]), reply_markup=ReplyKeyboardRemove())
+                                   "\n<b>Введені дані:</b>\n\n<code>Послуга:</code> <b>{data1}</b>\n<code>Місто:</code> <b>{data2}</b> 🗺\n<code>Адрес:</code> <b>{data3} 🗺</b>".format(
+        data1=data.get("data1"), data2=data.get("data2"), data3=call.message.text.split()[-2]),
+        reply_markup=ReplyKeyboardRemove())
+    subject = data.get("data1")
+    description = f"City: {data.get('data2')}, Address: {call.message.text.split()[-2]}"
+    c = FreshServiceRequests()
+    c.create_ticket(subject=subject, description=description)
     await state.finish()
 
 

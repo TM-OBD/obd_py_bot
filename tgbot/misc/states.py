@@ -40,6 +40,11 @@ class Admin_add_st(StatesGroup):
     st1 = State()
 
 
+class Admin_del_st(StatesGroup):
+    st1 = State()
+
+
 class Admin_send_message_st(StatesGroup):
     st1 = State()
     st2 = State()
+    st3 = State()

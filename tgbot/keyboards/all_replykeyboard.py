@@ -48,4 +48,6 @@ class Reply_board:
     def admin_keyboards(self):
         kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=self.one_time_keyboard,
                                  row_width=self.row_width, input_field_placeholder=self.input_field_placeholder)
-        return kb.add(KeyboardButton("Створити оголошення усім"), KeyboardButton("Повідомлення клієнту"), KeyboardButton("Додати адміністратора"))
+        return kb.add(KeyboardButton("Створити оголошення усім"), KeyboardButton("Повідомлення клієнту"), KeyboardButton("Додати адміністратора"), KeyboardButton("Убрати адміністратора"))
+
+
